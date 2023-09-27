@@ -1,7 +1,8 @@
 #include "udpserver.h"
-#include "ui_udpserver.h"
+#include "forms/ui_udpserver.h"
 #include <QDebug>
 #include <QHostInfo>
+#include <QAbstractButton>
 
 UdpServer::UdpServer(QWidget *parent) :
     QWidget(parent),

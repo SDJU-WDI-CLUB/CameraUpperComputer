@@ -1,5 +1,5 @@
 #include "imagedisplay.h"
-#include "ui_imagedisplay.h"
+#include "forms/ui_imagedisplay.h"
 
 ImageDisplay::ImageDisplay(QWidget *parent) :
     QWidget(parent),
