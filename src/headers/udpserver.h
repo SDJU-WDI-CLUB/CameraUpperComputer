@@ -7,29 +7,31 @@
 #include <QNetworkDatagram>
 
 namespace Ui {
-class UdpServer;
+    class UdpServer;
 }
 
-class UdpServer : public QWidget
-{
-    Q_OBJECT
+class UdpServer : public QWidget {
+Q_OBJECT
 
 public:
     explicit UdpServer(QWidget *parent = nullptr);
-    ~UdpServer();
+
+    ~UdpServer() override;
 
 signals:
+
     void Receivepackage(QByteArray data);
 
     void ServerStart();
+
     void ServerEnd();
 
 private:
     Ui::UdpServer *ui;
 
-    QUdpSocket *  server;
+    QUdpSocket *server;
 
-    private slots:
+private slots:
     void readPendingDatagrams();
 };
 

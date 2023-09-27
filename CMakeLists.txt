@@ -53,10 +53,12 @@ target_link_libraries(CameraImage
         ${LIBS}
 )
 
-add_custom_command(TARGET CameraImage POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_directory
-        "${PROJECT_SOURCE_DIR}/lib"
-        "${PROJECT_SOURCE_DIR}/bin")
+if (EXISTS "${PROJECT_SOURCE_DIR}/lib")
+    add_custom_command(TARGET CameraImage POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_directory
+            "${PROJECT_SOURCE_DIR}/lib"
+            "${PROJECT_SOURCE_DIR}/bin")
+endif ()
 
 SET_TARGET_PROPERTIES(CameraImage PROPERTIES RUNTIME_OUTPUT_DIRECTORY ../bin)
 

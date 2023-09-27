@@ -1,17 +1,15 @@
 #include "udpserver.h"
 #include "forms/ui_udpserver.h"
 #include <QDebug>
-#include <QHostInfo>
 #include <QAbstractButton>
 
 UdpServer::UdpServer(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::UdpServer)
-{
+        QWidget(parent),
+        ui(new Ui::UdpServer) {
     ui->setupUi(this);
     server = new QUdpSocket(this);
 
-    connect(ui->Connect,&QPushButton::pressed,[&](){
+    connect(ui->Connect, &QPushButton::pressed, [&]() {
         server->bind(ui->LocalPort->text().toInt());
         connect(server, &QUdpSocket::readyRead,
                 this, &UdpServer::readPendingDatagrams);
@@ -23,7 +21,7 @@ UdpServer::UdpServer(QWidget *parent) :
         emit this->ServerStart();
     });
 
-    connect(ui->Disconnect,&QPushButton::pressed,[&](){
+    connect(ui->Disconnect, &QPushButton::pressed, [&]() {
         ui->Disconnect->setEnabled(false);
         ui->Connect->setEnabled(true);
         ui->RomteIp->setEnabled(true);
@@ -33,21 +31,16 @@ UdpServer::UdpServer(QWidget *parent) :
         server->disconnect();
         emit this->ServerEnd();
     });
-
 }
 
-UdpServer::~UdpServer()
-{
+UdpServer::~UdpServer() {
     delete ui;
 }
 
-void UdpServer::readPendingDatagrams()
-{
-
+void UdpServer::readPendingDatagrams() {
     while (server->hasPendingDatagrams()) {
         QNetworkDatagram datagram = server->receiveDatagram();
         auto data = datagram.data();
-
         emit Receivepackage(data);
     }
 }
