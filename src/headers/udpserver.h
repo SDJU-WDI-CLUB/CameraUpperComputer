@@ -19,8 +19,10 @@ public:
     ~UdpServer() override;
 
 signals:
+
     void Receivepackage(QByteArray data);
     void ServerStart();
+
     void ServerEnd();
 private:
     Ui::UdpServer *ui;
