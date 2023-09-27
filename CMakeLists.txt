@@ -11,6 +11,13 @@ set(CMAKE_PREFIX_PATH "D:/Qt/6.5.2/mingw_64")
 link_libraries(ws2_32)
 link_libraries(Iphlpapi)
 
+# 为Release版本开启O2优化
+if (CMAKE_BUILD_TYPE STREQUAL "Release")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2")
+endif ()
+
+message("Build Type:" ${CMAKE_BUILD_TYPE} ${CMAKE_CXX_FLAGS})
+
 SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/../bin)
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/../bin)
