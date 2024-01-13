@@ -2,6 +2,7 @@
 #include "forms/ui_udpserver.h"
 #include <QDebug>
 #include <QAbstractButton>
+#include <iostream>
 
 UdpServer::UdpServer(QWidget *parent) :
         QWidget(parent),
@@ -41,6 +42,7 @@ void UdpServer::readPendingDatagrams() {
     while (server->hasPendingDatagrams()) {
         QNetworkDatagram datagram = server->receiveDatagram();
         auto data = datagram.data();
+        std::cout << data.data() << std::endl;
         emit Receivepackage(data);
     }
 }

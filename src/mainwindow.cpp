@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "forms/ui_mainwindow.h"
+#include "iostream"
 
 MainWindow::MainWindow(QWidget *parent)
         : QMainWindow(parent), ui(new Ui::MainWindow) {
@@ -37,6 +38,12 @@ MainWindow::MainWindow(QWidget *parent)
         this->ImageVedio.clear();
         ui->frame->setRange(0, 0);
     });
+
+    connect(ui->saveImage, &QPushButton::pressed, [&](){
+        int target = ui->frame->value();
+        ImageVedio[target].save("image.bmp", "BMP");
+    });
+
     connect(ui->ImageType, &QComboBox::currentIndexChanged, [&](int index) {
         switch (index) {
             case 0:
@@ -66,8 +73,8 @@ MainWindow::~MainWindow() {
 
 
 void MainWindow::dataReceive(const QByteArray& data) {
-    QByteArray startMarker = QByteArray::fromHex("0000807F");
-    QByteArray endMarker = QByteArray::fromHex("807F0000");
+    QByteArray startMarker = QByteArray::fromHex("48414C46");
+    QByteArray endMarker = QByteArray::fromHex("464C4148");
 
     ImageBuf.push_back(data);
 
@@ -88,6 +95,7 @@ void MainWindow::dataReceive(const QByteArray& data) {
             len *= 3;
         }
 
+//        std::cout << len << std::endl;
         QByteArray ImageData = RawData.mid(0, len);
         if (ImageFormt == QImage::Format_Mono) ImageData = MonoDecode(ImageData);
 
@@ -110,7 +118,7 @@ void MainWindow::dataReceive(const QByteArray& data) {
             ImagePaint->drawPoints(Lines[i]);
         }
 
-
+        delete ImagePaint;
         ImageVedio.push_back(QPixmap::fromImage(Image));
 
         if (ImageVedio.size() > this->MaxFrame) {
@@ -118,7 +126,6 @@ void MainWindow::dataReceive(const QByteArray& data) {
         }
         ui->frame->setMaximum(ImageVedio.size() - 1);
         ui->frame->setValue(ImageVedio.size() - 1);
-
     }
 }
 
